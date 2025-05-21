@@ -16,13 +16,14 @@ const App = () => {
         // </View>
         <View style={{
             flex: 1,
+            margin:10,
             backgroundColor: '#fff',
             alignContent: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            alignItems:'center',
         }}>
             <Text style={{ fontSize: 30, marginBottom: 10 }}>Button Component</Text>
-            {/* <Button title="button" onPress={()=> alert('Click!!')}/> */}
-            <MyButton />
+            <MyButton/>
 
             {/* <ScrollView> */}
             {/* 길이 20의 배열을 만들어 인덱스 i기준으로 0~19까지 반복
@@ -34,6 +35,7 @@ const App = () => {
                 ))}
             </ScrollView> */}
         </View>
+
     )
 }
 export default App;

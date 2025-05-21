@@ -4,13 +4,15 @@ const MyButton = () =>{
         <Pressable
             style={{
                 backgroundColor:'#3498db',
-                padding:16,
+                padding:10,
                 margin:10,
                 borderRadius:8,
+                width:150,
+                height:100
             }}
             onPress={()=>alert("click")}>
 
-            <Text style={{fontSize:24}}>My Button</Text>
+            <Text style={{fontSize:24, color:'#fff'}}>My Button</Text>
         </Pressable>
     )
 }
