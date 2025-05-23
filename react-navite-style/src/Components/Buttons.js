@@ -1,24 +1,28 @@
-import styled from 'styled-components';
-import { Pressable } from 'react-native';
+import styled from 'styled-components/native';
+import { Pressable, Text } from 'react-native';
 
-const ButtonContainer = styled.Pressable`
-        background-color:'#FFB6C1';
-        border-radius: 8px;
-        padding: 15px 24px;
-        margin: 10px;
-        alignItems : center;
-`
+/* Pressable을 스타일링할 땐 styled(Pressable) 또는 styled.Pressable 둘 다 가능 */
+//백틱(``)안에서 props에 접근할 수 있다는 장점을 이용해 props의 값에 따라 
+//스타일을 변경할 수도 있다.
+const ButtonContainer = styled(Pressable)`
+  background-color:${props=> props.title ==="Hanbit" ? props.theme.plum : props.theme.deepSkyBlue};
+  border-radius: 8px;
+  padding: 15px 24px;
+  margin: 10px;
+  align-items: center;   
+`;
 
-const ButtonText = styled.Text`
-    color : '#fff;
-    fontSize: 18px;
-    font-weight:bold;
-`
+/* Text 컴포넌트를 스타일링 */
+const ButtonText = styled(Text)`
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+`;
 
-const MyButton = () => {
+const MyButton = (props) => {
   return (
-    <ButtonContainer>
-      <ButtonText>버튼이름</ButtonText>
+    <ButtonContainer title={props.title}>
+      <ButtonText>{props.title}</ButtonText>
     </ButtonContainer>
   );
 };
