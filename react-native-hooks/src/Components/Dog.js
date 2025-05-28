@@ -24,7 +24,7 @@ const Dog = () => {
         <>
             {inProgress && <LoadingMessage>현재 요청이 진행중입니다</LoadingMessage>}
             <StyledImage source={data?.message ? { uri : data.message} : null} />
-            <ErrorMessage>{error ?.message} </ErrorMessage> 
+            <ErrorMessage>{error ?.message} </ErrorMessage>  
         </>
     )
 }

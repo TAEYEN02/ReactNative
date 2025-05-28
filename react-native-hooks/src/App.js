@@ -9,6 +9,8 @@ import ScrollEnd from './Components/ScrollEnd';
 import Length from './Components/Length';
 import AverageCalculator from './Components/Average';
 import Dog from './Components/Dog';
+import Signup from './Components/Sinup';
+import { ChangeTheme } from './Components/ChangeTheme';
 const Container = styled.View`
     flex:1;
     background-color:#fff;
@@ -31,7 +33,9 @@ const App = () => {
             <ScrollEnd/> */}
             {/* <Length/> */}
             {/* <AverageCalculator/> */}
-            <Dog/>
+            {/* <Dog/> */}
+            {/* <Signup/> */}
+            <ChangeTheme/>
         </Container>
     )
 }
