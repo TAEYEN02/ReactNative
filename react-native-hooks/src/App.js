@@ -11,6 +11,7 @@ import AverageCalculator from './Components/Average';
 import Dog from './Components/Dog';
 import Signup from './Components/Sinup';
 import { ChangeTheme } from './Components/ChangeTheme';
+import { LoginForm } from './Components/LoginForm';
 const Container = styled.View`
     flex:1;
     background-color:#fff;
@@ -35,7 +36,8 @@ const App = () => {
             {/* <AverageCalculator/> */}
             {/* <Dog/> */}
             {/* <Signup/> */}
-            <ChangeTheme/>
+            {/* <ChangeTheme/> */}
+            <LoginForm/>
         </Container>
     )
 }
