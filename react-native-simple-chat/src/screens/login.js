@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { Image, Input, Button } from "../components/index";
 import { images } from "../utils/images";
-import { useState, useRef, useEffect} from "react";
+import { useState, useRef, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { removeWhitespce, validateEmail, validatePassword } from "../utils/common";
+import { Alert } from 'react-native';
+import { login } from '../utils/firebase';
 
 const Container = styled.View`
     flex:1;
@@ -29,16 +31,16 @@ const Login = ({ navigation }) => {
     //에러메시지 상태 관리
     const [errorMessage, setErrorMessage] = useState('');
     //버튼의 활성화 상태를 관리하는 state
-    const [disabled , setIsDisabled] = useState(false);
+    const [disabled, setIsDisabled] = useState(false);
     const passwordRef = useRef();
 
     //email, password, errorMessage의 state 값이 변할때마다
     //조건에 맞게 disabled의 state에 값을 세팅한다
-    useEffect(()=>{
+    useEffect(() => {
         //로그인 버튼은 이메일과 비밀번호가 입력되어있어야 하고
         //오류 메시지가 없어야 활성화된다
         setIsDisabled(!(email && password && !errorMessage));
-    },[email,password,errorMessage]);
+    }, [email, password, errorMessage]);
 
     const _handleEmailChange = (email) => {
         //입력된 이메일에 공백이 있다면 먼저 지운다
@@ -52,9 +54,16 @@ const Login = ({ navigation }) => {
     const _handlePasswordChange = (password) => {
         const changedPassword = removeWhitespce(password);
         setPassword(changedPassword);
-
     }
-    const _handleLoginButtonPress = () => {}
+
+    const _handleLoginButtonPress = async () => {
+        try {
+            const user = await login({ email, password });
+            Alert.alert('Login Success', user.email);
+        } catch (error) {
+            Alert.alert('Login Error', error.message);
+        }
+    };
 
 
     return (
@@ -84,14 +93,14 @@ const Login = ({ navigation }) => {
                     isPassword={true}
                 />
                 <ErrorText>{errorMessage}</ErrorText>
-                <Button 
-                    title="signup" 
+                <Button
+                    title="signup"
                     onPress={_handleLoginButtonPress}
                     disabled={disabled}
-                 />
-                <Button 
+                />
+                <Button
                     title="Sign up with email"
-                    onPress={()=>navigation.navigate("Signup")}
+                    onPress={() => navigation.navigate("Signup")}
                     isFilled={false}
                 />
             </Container>

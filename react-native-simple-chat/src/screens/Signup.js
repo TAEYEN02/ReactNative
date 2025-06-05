@@ -4,6 +4,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { validateEmail, removeWhitespce } from "../utils/common";
 import { useRef, useState, useEffect } from "react";
 import { images } from "../utils/images";
+import { signup } from "../utils/firebase";
+import { Alert } from "react-native";
 
 
 const Container = styled.View`
@@ -29,7 +31,7 @@ const Signup = () => {
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [disabled, setIsDisabled] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
-    const [photoURL,setPotoURL] = useState(images.photo);
+    const [photoURL,setPhotoURL] = useState(images.photo);
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
@@ -57,17 +59,29 @@ const Signup = () => {
         )
     }, [name, email, password, passwordConfirm, errorMessage]);
 
-    const _handleSignupButtonPress = () => { };
+    const _handleSignupButtonPress = async() => {
+        try{
+            const user = await signup({email, password, photoUrl, name});
+            console.log(user);
+            Alert.alert('Signup Scucess',user.email);
+        }catch(error){
+            Alert.alert('Signup Error',error.errorMessage);
+        }
+     };
 
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{ flex: 1 }}
-            extraHeight={100}
             enableOnAndroid={true}
         >
             <Container>
                 {/* 프로필 사진 */}
-                <Image url={photoURL} rounded />
+                <Image 
+                    url={photoURL} 
+                    rounded
+                    showButton
+                    onChangeImage={url => setPhotoURL(url)}
+                 />
 
                 {/* 이름 입력 */}
                 <Input

@@ -9,15 +9,28 @@ const colors={
 }
 
 export const theme ={
+    // 배경색
     background : colors.white,
+    // 글자색
     text : colors.black,
+    // 이미지 관력
     imageBackground :colors.grey_0,
+    imageButtonBackground : colors.grey_0,
+    imageButtonIcon : colors.white,
+    
+    // input 관련
     label:colors.grey_1,
     inputPlaceholder:colors.grey_1,
     inputBorder :colors.grey_1,
     errorMessage:colors.red,
+    // 버튼관련
     buttonBackground:colors.blue,
     buttonTitle : colors.white,
     buttonUnFiledTitle : colors.blue,
     headerTintColor : colors.black,
+
+
+    //Spinner
+    spinnerBackground: colors.black,
+    spinnerIndicator : colors.white,
 }

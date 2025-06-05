@@ -69,7 +69,6 @@ const App = () => {
 
     if (!isReady) {
         return null;//로딩이 완료되지 않은 경우 화면을 빈 상태로 유지
-        ret
     }
 
     return (
