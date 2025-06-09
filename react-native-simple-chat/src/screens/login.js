@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { Image, Input, Button } from "../components/index";
 import { images } from "../utils/images";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { removeWhitespce, validateEmail, validatePassword } from "../utils/common";
 import { Alert } from 'react-native';
 import { login } from '../utils/firebase';
+import { ProgressContext, UserContext } from "../contexts";
 
 const Container = styled.View`
     flex:1;
@@ -33,6 +34,8 @@ const Login = ({ navigation }) => {
     //버튼의 활성화 상태를 관리하는 state
     const [disabled, setIsDisabled] = useState(false);
     const passwordRef = useRef();
+    const {spinner} = useContext(ProgressContext);
+    const {dispatch} = useContext(UserContext);
 
     //email, password, errorMessage의 state 값이 변할때마다
     //조건에 맞게 disabled의 state에 값을 세팅한다
@@ -58,10 +61,14 @@ const Login = ({ navigation }) => {
 
     const _handleLoginButtonPress = async () => {
         try {
+            spinner.start();
             const user = await login({ email, password });
             Alert.alert('Login Success', user.email);
+            dispatch(user.email,user.uid);
         } catch (error) {
             Alert.alert('Login Error', error.message);
+        }finally{
+            spinner.stop();
         }
     };
 
@@ -69,7 +76,7 @@ const Login = ({ navigation }) => {
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{ flex: 1 }}
-            extraHeight={80}
+            extraHeight={10}
             enableOnAndroid={true}
         >
             <Container>

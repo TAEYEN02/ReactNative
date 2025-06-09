@@ -2,12 +2,11 @@ import styled from "styled-components"
 import { Image, Input, Button } from '../components';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { validateEmail, removeWhitespce } from "../utils/common";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { images } from "../utils/images";
 import { signup } from "../utils/firebase";
 import { Alert } from "react-native";
-
-
+import { ProgressContext, UserContext } from "../contexts";
 const Container = styled.View`
     flex:1;
     justify-content : center;
@@ -31,10 +30,12 @@ const Signup = () => {
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [disabled, setIsDisabled] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
-    const [photoURL,setPhotoURL] = useState(images.photo);
+    const [photoURL, setPhotoURL] = useState(images.photo);
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
+    const { spinner } = useContext(ProgressContext);
+    const {dispatch} = useContext(UserContext);
 
     useEffect(() => {
         let _errorMessage = '';
@@ -59,29 +60,33 @@ const Signup = () => {
         )
     }, [name, email, password, passwordConfirm, errorMessage]);
 
-    const _handleSignupButtonPress = async() => {
-        try{
-            const user = await signup({email, password, photoUrl, name});
-            console.log(user);
-            Alert.alert('Signup Scucess',user.email);
-        }catch(error){
-            Alert.alert('Signup Error',error.errorMessage);
+    const _handleSignupButtonPress = async () => {
+        try {
+            spinner.start();
+            const user = await signup({ email, password, photoURL, name });
+            dispatch(user.email, user.uid);
+            Alert.alert('Signup Scucess', user.email);
+        } catch (error) {
+            Alert.alert('Signup Error', error.message);
+        } finally {
+            spinner.stop();
         }
-     };
+    };
 
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{ flex: 1 }}
             enableOnAndroid={true}
+            extraHeight={10}
         >
             <Container>
                 {/* 프로필 사진 */}
-                <Image 
-                    url={photoURL} 
+                <Image
+                    url={photoURL}
                     rounded
                     showButton
                     onChangeImage={url => setPhotoURL(url)}
-                 />
+                />
 
                 {/* 이름 입력 */}
                 <Input

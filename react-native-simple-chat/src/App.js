@@ -12,6 +12,7 @@ import { ThemeProvider } from "styled-components"
 import { theme } from "./theme";
 import Navigation from "./navigations";
 import { images } from "./utils/images";
+import { ProgressProvider, UserProvider } from "./contexts";
 
 //앱 시작 시 스플래시 화면이 자동으로 사라지지 않도록 설정
 //이 함수 호출 이후로는 내가 직접 hideAsync()를 호출할 때까지 스플래시 화면이 유지된다
@@ -59,9 +60,9 @@ const App = () => {
     const _loadAssets = async () => {
         //이미지와 폰트를 캐싱하여 리소스를 로드
         const imageAssets = cacheImages([
-                                    require('../assets/splash.png'),
-                                    ...Object.values(images)
-                            ]);
+            require('../assets/splash.png'),
+            ...Object.values(images)
+        ]);
         const fontAssets = cacheFonts([]);//추가적인 폰트가 있다면 이 배열 추가
 
         await Promise.all([...imageAssets, ...fontAssets]);
@@ -75,11 +76,14 @@ const App = () => {
         //스타일드 컴포넌트의 ThemeProvider 컴포넌트를 사용해 스타일드 컴포넌트에서 정의된 theme를
         //사용할 수 있도록 작성했다.
         <ThemeProvider theme={theme}>
-            {/* 뷰 계층이 렌더링된 뒤 스플래시 숨기기 위해 View에 onLayout 연결 */}
-                <StatusBar barStyle='dark-content' />
-                <Navigation />
+            <UserProvider>
+                <ProgressProvider>
+                    {/* 뷰 계층이 렌더링된 뒤 스플래시 숨기기 위해 View에 onLayout 연결 */}
+                    <StatusBar barStyle='dark-content' />
+                    <Navigation />
+                </ProgressProvider>
+            </UserProvider>
         </ThemeProvider>
     )
 }
 export default App;
- 
