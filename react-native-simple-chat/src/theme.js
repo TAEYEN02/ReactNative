@@ -23,15 +23,26 @@ export const theme ={
     inputPlaceholder:colors.grey_1,
     inputBorder :colors.grey_1,
     errorMessage:colors.red,
+    inputDisabledBackground:colors.grey_0,
     
     // 버튼관련
     buttonBackground:colors.blue,
     buttonTitle : colors.white,
     buttonUnFiledTitle : colors.blue,
     headerTintColor : colors.black,
-
+    buttonLogout:colors.red,
 
     //Spinner
     spinnerBackground: colors.black,
     spinnerIndicator : colors.white,
+
+    //Tab style
+    tabActiveColor : colors.blue,
+    tabInActiveColor : colors.grey_1,
+
+    //List
+    listTime : colors.grey_1,
+    listDescription : colors.grey_1,
+    listIcon :colors.black,
+
 }

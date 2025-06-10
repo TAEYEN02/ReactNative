@@ -31,4 +31,4 @@ const AuthStack = () => {
         </Stack.Navigator>
     )
 }
-export default AuthStack;
+export default AuthStack; 
