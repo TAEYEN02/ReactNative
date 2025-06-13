@@ -12,14 +12,12 @@ const WriteScreen = ({ navigation }) => {
             Alert.alert("제목, 내용, 작성자 이름을 모두 입력하세요.");
             return;
         }
-
         try {
             const postData = {
                 title,
                 author,
                 description,
             };
-
             await createPost(postData);
             Alert.alert("게시글 등록 완료!");
             navigation.goBack();

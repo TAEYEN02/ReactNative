@@ -1,8 +1,8 @@
-import { View, StyleSheet, FlatList, Pressable } from "react-native";
+import { View, StyleSheet, FlatList, Pressable,Text } from "react-native";
 import PostItem from "../components/PostItem";
 import FloatingButton from "../components/FloatingButton";
 import { getAllPosts } from "../../api/posts";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
 const BoardScreen = ({ navigation }) => {
@@ -22,7 +22,7 @@ const BoardScreen = ({ navigation }) => {
             console.log("불러온 게시글 데이터:", data);
             setPosts(data);
         } catch (error) {
-            alert("게시글을 불러오는데 실패했습니다.");
+            alert("게시글을 불러오는데 실패했습니다. : ", error);
         }
     };
 
@@ -36,6 +36,13 @@ const BoardScreen = ({ navigation }) => {
                         <PostItem post={item} />
                     </Pressable>
                 )}
+                ListEmptyComponent={ 
+                    (
+                        <View>
+                            <Text style={styles.text}>게시글 데이터가 없습니다</Text>
+                        </View>
+                    )
+                }
             />
             <FloatingButton onPress={() => navigation.navigate('Write')} />
         </View>
@@ -47,5 +54,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#121212",
+    },
+    text:{
+        alignSelf:'center',
+        color:"#fff",
+        paddingTop:10,
     }
 })

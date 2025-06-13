@@ -1,28 +1,28 @@
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet, FlatList, Pressable, Text, Alert } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { getPostsByAuthor } from "../../api/posts"; // ← 방금 만든 함수
+import { getPostsByAuthor } from "../../api/posts";
 
 const SearchScreen = () => {
   const [author, setAuthor] = useState("");
   const [results, setResults] = useState([]);
   const navigation = useNavigation();
 
-  useFocusEffect(
-  React.useCallback(() => {
-    const fetchPosts = async () => {
-      if (!author.trim()) return; // author가 있으면만 호출
-      try {
-        const posts = await getPostsByAuthor(author);
-        setResults(posts);
-      } catch (e) {
-        Alert.alert("검색 실패", "작성자 검색 중 오류가 발생했습니다.");
-      }
-    };
+  //   useFocusEffect(
+  //   React.useCallback(() => {
+  //     const fetchPosts = async () => {
+  //       if (!author.trim()) return; 
+  //       try {
+  //         const posts = await getPostsByAuthor(author);
+  //         setResults(posts);
+  //       } catch (e) {
+  //         Alert.alert("검색 실패", "작성자 검색 중 오류가 발생했습니다.");
+  //       }
+  //     };
 
-    fetchPosts();
-  }, [author])
-);
+  //     fetchPosts();
+  //   }, [author])
+  // );
 
   const onSearch = async () => {
     if (!author.trim()) {
@@ -32,7 +32,15 @@ const SearchScreen = () => {
 
     try {
       const posts = await getPostsByAuthor(author);
+
+      if (posts.length === 0) {
+        Alert.alert("없는 작성자입니다");
+        setResults([]); 
+        return;
+      }
+
       setResults(posts);
+      console.log("검색 결과 : ",posts)
     } catch (error) {
       Alert.alert("검색 실패", "작성자 검색 중 오류가 발생했습니다.");
     }
@@ -43,8 +51,8 @@ const SearchScreen = () => {
       onPress={() => navigation.navigate("Detail", { post: item })}
       style={styles.item}
     >
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.meta}>작성자: {item.author} · 조회수: {item.views}</Text>
+      <Text style={styles.title}>{item.title} </Text>
+      <Text style={styles.meta}>작성자: {item.author}  조회수: {item.views}</Text>
     </Pressable>
   );
 
@@ -66,6 +74,11 @@ const SearchScreen = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         style={styles.list}
+        ListEmptyComponent={(
+          <View>
+            <Text>없는 데이터 입니다</Text>
+          </View>
+        )}
       />
     </View>
   );
@@ -85,7 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 8,
     marginBottom: 10,
-    color:'#fff'
+    color: '#fff'
   },
   button: {
     backgroundColor: "#4B0082",

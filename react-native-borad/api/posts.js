@@ -42,4 +42,3 @@ export const getPostsByAuthor = async (author) => {
     throw error;
   }
 };
-
